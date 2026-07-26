@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин приложений — Гусиная Империя</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #0d0d0d;
+            padding: 25px;
+            border-radius: 16px;
+            border-bottom: 3px solid #ffd700;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            color: #ffd700;
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h1 span {
+            color: #fff;
+            font-weight: 300;
+        }
+
+        .header .badge {
+            background: #ffd700;
+            color: #1a1a1a;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+
+        .header .repo-link {
+            color: #64b5f6;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .header .repo-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== СТАТИСТИКА ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+
+        .stat-card .number {
+            font-size: 2em;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .stat-card .label {
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        /* ===== КАРТОЧКИ ПРИЛОЖЕНИЙ ===== */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .app-card {
+            background: #1e1e1e;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .app-card:hover {
+            border-color: #ffd700;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.05);
+        }
+
+        .app-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .app-card .name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .app-card .desc {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            min-height: 40px;
+        }
+
+        .app-card .meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .app-card .meta .category {
+            background: #2a2a2a;
+            padding: 2px 10px;
+            border-radius: 12px;
+            color: #aaa;
+        }
+
+        .app-card .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .app-card .btn-primary {
+            background: #ffd700;
+            color: #1a1a1a;
+        }
+
+        .app-card .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        .app-card .btn-secondary {
+            background: #2a2a2a;
+            color: #ccc;
+        }
+
+        .app-card .btn-secondary:hover {
+            background: #3a3a3a;
+        }
+
+        .app-card .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .app-card .version {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #2a2a2a;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        .app-card .installed {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #2e7d32;
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        /* ===== ПОДВАЛ ===== */
+        .footer {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            color: #555;
+            font-size: 0.85em;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media screen and (max-width: 768px) {
+            .header h1 {
+                font-size: 1.4em;
+            }
+
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .app-card .btn-group {
+                flex-direction: column;
+            }
+
+            .app-card .btn {
+                text-align: center;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== СКРЫТОЕ ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== АНИМАЦИЯ ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .app-card {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h1>📦 Гусиный <span>Магазин</span></h1>
+            <div>
+                <span class="badge" id="status-badge">🟢 Онлайн</span>
+                <a href="https://github.com/your-username/goose-apps-repo" target="_blank" class="repo-link">🌐 GitHub</a>
+            </div>
+        </div>
+
+        <!-- ===== СТАТИСТИКА ===== -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number" id="total-apps">0</div>
+                <div class="label">Приложений</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="total-categories">0</div>
+                <div class="label">Категорий</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="total-authors">0</div>
+                <div class="label">Авторов</div>
+            </div>
+        </div>
+
+        <!-- ===== МАГАЗИН ===== -->
+        <div class="apps-grid" id="apps-container">
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:#666;">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color:#ffd700;"></i>
+                <p>Загрузка приложений...</p>
+            </div>
+        </div>
+
+        <!-- ===== ПОДВАЛ ===== -->
+        <div class="footer">
+            <p>🐣 Гусиная Империя — Магазин приложений</p>
+            <p style="font-size:0.8em;color:#444;">Для установки приложения перетащите ZIP-файл в Гусиное Ядро</p>
+        </div>
+
+    </div>
+
+    <script>
+        // ===== КОНФИГУРАЦИЯ =====
+        // Замени URL на свой GitHub Pages
+        const REPO_URL = 'https://your-username.github.io/goose-apps-repo';
+        const INFO_URL = `${REPO_URL}/info.json`;
+        const APPS_URL = `${REPO_URL}/apps/`;
+
+        let appData = {};
+
+        // ===== ЗАГРУЗКА СПИСКА ПРИЛОЖЕНИЙ =====
+        async function loadApps() {
+            const container = document.getElementById('apps-container');
+
+            try {
+                const res = await fetch(INFO_URL);
+                if (!res.ok) throw new Error('Не удалось загрузить info.json');
+                appData = await res.json();
+
+                const appNames = Object.keys(appData);
+                const categories = new Set();
+                const authors = new Set();
+
+                // Подсчёт статистики
+                appNames.forEach(name => {
+                    const app = appData[name];
+                    if (app.category) categories.add(app.category);
+                    if (app.author) authors.add(app.author);
+                });
+
+                document.getElementById('total-apps').textContent = appNames.length;
+                document.getElementById('total-categories').textContent = categories.size;
+                document.getElementById('total-authors').textContent = authors.size;
+
+                if (appNames.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column:1/-1;text-align:center;padding:40px;color:#666;">
+                            <i class="fas fa-box-open fa-3x" style="color:#ffd700;display:block;margin-bottom:15px;"></i>
+                            <p>Приложений пока нет</p>
+                            <p style="font-size:0.9em;">Добавьте первое приложение в репозиторий</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = appNames.map(name => {
+                    const app = appData[name];
+                    const zipUrl = `${APPS_URL}${name}.zip`;
+
+                    return `
+                        <div class="app-card">
+                            <span class="version">v${app.version || '1.0'}</span>
+                            <span class="icon">${app.icon || '📦'}</span>
+                            <div class="name">${app.name || name}</div>
+                            <div class="desc">${app.desc || 'Описание отсутствует'}</div>
+                            <div class="meta">
+                                <span class="category">${app.category || 'Разное'}</span>
+                                <span>👤 ${app.author || 'Неизвестен'}</span>
+                                <span>📅 ${app.updated || '—'}</span>
+                                <span>📦 ${app.size || '—'}</span>
+                            </div>
+                            <div class="btn-group">
+                                <a href="${zipUrl}" class="btn btn-primary" download>
+                                    📥 Скачать ZIP
+                                </a>
+                                <button class="btn btn-secondary" onclick="copyAppLink('${name}')">
+                                    🔗 Ссылка
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                document.getElementById('status-badge').textContent = '🟢 Загружено ' + appNames.length + ' приложений';
+
+            } catch (e) {
+                container.innerHTML = `
+                    <div style="grid-column:1/-1;text-align:center;padding:40px;color:#f44336;">
+                        <i class="fas fa-exclamation-triangle fa-3x" style="display:block;margin-bottom:15px;"></i>
+                        <p>Ошибка загрузки репозитория</p>
+                        <p style="font-size:0.9em;color:#888;">${e.message}</p>
+                        <button class="btn" style="margin-top:15px;background:#ffd700;color:#1a1a1a;border:none;padding:10px 25px;border-radius:20px;cursor:pointer;" onclick="loadApps()">
+                            🔄 Повторить
+                        </button>
+                    </div>
+                `;
+                document.getElementById('status-badge').textContent = '🔴 Ошибка загрузки';
+                console.error('Ошибка загрузки приложений:', e);
+            }
+        }
+
+        // ===== КОПИРОВАНИЕ ССЫЛКИ =====
+        function copyAppLink(appName) {
+            const url = `${APPS_URL}${appName}.zip`;
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('✅ Ссылка скопирована: ' + url);
+            }).catch(() => {
+                // Fallback
+                const input = document.createElement('input');
+                input.value = url;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast('✅ Ссылка скопирована');
+            });
+        }
+
+        // ===== TOAST-СООБЩЕНИЯ =====
+        function showToast(msg) {
+            const old = document.querySelector('.toast-message');
+            if (old) old.remove();
+
+            const div = document.createElement('div');
+            div.className = 'toast-message';
+            div.textContent = msg;
+            Object.assign(div.style, {
+                position: 'fixed',
+                bottom: '20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: '#0d0d0d',
+                color: '#ffd700',
+                padding: '12px 24px',
+                borderRadius: '30px',
+                border: '1px solid #ffd700',
+                fontWeight: 'bold',
+                zIndex: '9999',
+                boxShadow: '0 4px 30px rgba(0,0,0,0.8)',
+                animation: 'fadeIn 0.3s ease-out',
+                maxWidth: '90%',
+                textAlign: 'center'
+            });
+            document.body.appendChild(div);
+
+            setTimeout(() => {
+                div.style.opacity = '0';
+                div.style.transition = 'opacity 0.3s';
+                setTimeout(() => div.remove(), 300);
+            }, 3000);
+        }
+
+        // ===== ЗАГРУЗКА ПРИ СТАРТЕ =====
+        window.onload = function() {
+            loadApps();
+            console.log('🦆 Гусиный Магазин загружен');
+            console.log('📦 Репозиторий:', REPO_URL);
+        };
+    </script>
+</body>
+</html>
