@@ -1,32 +1,91 @@
 {
-  "crypto-messenger": {
-    "name": "Гусиный Шифровальщик",
-    "desc": "Шифрование, расшифровка, подписи и контакты",
-    "version": "1.0.0",
-    "author": "Император",
-    "icon": "🔐",
-    "category": "Безопасность",
-    "size": "12 KB",
-    "updated": "2026-07-26"
+  "apps": {
+    "crypto-messenger": {
+      "name": "Гусиный Шифровальщик",
+      "icon": "🔐",
+      "category": "Безопасность",
+      "description": "Шифрование, расшифровка, подписи и контакты",
+      "version": "2.0.0",
+      "author": "Император",
+      "dependencies": ["app"],
+      "tags": ["шифрование", "безопасность", "криптография"],
+      "file": "crypto-messenger.zip"
+    },
+    "profile": {
+      "name": "Личный кабинет",
+      "icon": "👤",
+      "category": "Профиль",
+      "description": "Просмотр и редактирование профиля гражданина",
+      "version": "2.0.0",
+      "author": "Император",
+      "dependencies": ["app"],
+      "tags": ["профиль", "настройки"],
+      "file": "profile.zip"
+    },
+    "bank": {
+      "name": "Гусиный Банк",
+      "icon": "🏦",
+      "category": "Финансы",
+      "description": "Перевод и подтверждение транзакций",
+      "version": "2.0.0",
+      "author": "Император",
+      "dependencies": ["app", "bank"],
+      "tags": ["банк", "деньги", "переводы"],
+      "file": "bank.zip"
+    },
+    "app-manager": {
+      "name": "Менеджер приложений",
+      "icon": "🛠️",
+      "category": "Инструменты",
+      "description": "Создание, сборка и управление приложениями",
+      "version": "2.0.0",
+      "author": "Император",
+      "dependencies": ["app", "bank"],
+      "tags": ["разработка", "сборка", "управление"],
+      "file": "app-manager.zip"
+    },
+    "lib-installer": {
+      "name": "Инсталлятор библиотек",
+      "icon": "📚",
+      "category": "Инструменты",
+      "description": "Устанавливай и управляй глобальными библиотеками для разработки приложений",
+      "version": "1.0.0",
+      "author": "Император",
+      "dependencies": [],
+      "tags": ["библиотеки", "установка", "разработка"],
+      "file": "lib-installer.zip"
+    },
+    "test-app":{
+      "name": "Тестовое приложение",
+      "icon": "🧪",
+      "category": "Демо",
+      "description": "Пример работы с API ядра и библиотекой app.js",
+      "version": "1.0.0",
+      "author": "Император",
+      "tags": ["демо", "тест", "пример"],
+      "file": "test-app.zip"
+    }
   },
-  "profile": {
-    "name": "Личный кабинет",
-    "desc": "Просмотр и редактирование профиля гражданина",
-    "version": "1.0.0",
-    "author": "Император",
-    "icon": "👤",
-    "category": "Профиль",
-    "size": "8 KB",
-    "updated": "2026-07-26"
+  "libs": {
+    "app": {
+      "name": "App Library",
+      "icon": "📚",
+      "category": "Библиотеки",
+      "description": "Универсальная библиотека для приложений",
+      "version": "1.0.0",
+      "author": "Император",
+      "file": "app-lib.zip"
+    },
+    "bank": {
+      "name": "Bank Library",
+      "icon": "🏦",
+      "category": "Библиотеки",
+      "description": "Библиотека для банковских операций",
+      "version": "2.0.0",
+      "author": "Император",
+      "file": "bank-lib.zip"
+    }
   },
-  "bank":{
-    "name": "Банк",
-    "desc": "Перевод и подтверждение",
-    "version": "1.0.0",
-    "author": "Император",
-    "icon": "Г",
-    "category": "Экономика",
-    "size": "67 KB",
-    "updated": "2026-07-26"
-  }
+  "version": "0.2.0",
+  "updated": "2026-07-30"
 }
