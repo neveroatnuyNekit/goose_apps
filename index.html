@@ -3,464 +3,507 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Магазин приложений — Гусиная Империя</title>
+    <title>📦 Гусиный Магазин</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦆</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #1a1a1a;
             color: #e0e0e0;
             min-height: 100vh;
-            padding: 20px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .header {
+        header {
             background: #0d0d0d;
-            padding: 25px;
-            border-radius: 16px;
+            padding: 15px 20px;
             border-bottom: 3px solid #ffd700;
-            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
         }
-
-        .header h1 {
+        .logo h1 {
             color: #ffd700;
-            font-size: 2em;
+            font-size: 1.5em;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
-
-        .header h1 span {
-            color: #fff;
-            font-weight: 300;
-        }
-
-        .header .badge {
+        .logo h1 span { color: #fff; font-weight: 300; }
+        .badge-citizen {
             background: #ffd700;
             color: #1a1a1a;
-            padding: 6px 16px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-weight: bold;
             font-size: 0.85em;
         }
-
-        .header .repo-link {
+        .repo-link {
             color: #64b5f6;
             text-decoration: none;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
+        .repo-link:hover { text-decoration: underline; }
 
-        .header .repo-link:hover {
-            text-decoration: underline;
+        main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .hero {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 4px solid #ffd700;
+            text-align: center;
         }
+        .hero h2 {
+            color: #ffd700;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        .hero h2 i { margin-right: 12px; }
+        .hero p { color: #bbb; font-size: 1em; }
 
-        /* ===== СТАТИСТИКА ===== */
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 15px;
             margin-bottom: 25px;
         }
-
         .stat-card {
             background: #1e1e1e;
             border-radius: 12px;
-            padding: 18px;
+            padding: 15px;
             text-align: center;
             border: 1px solid #2a2a2a;
         }
-
         .stat-card .number {
-            font-size: 2em;
+            font-size: 1.8em;
             color: #ffd700;
             font-weight: bold;
         }
+        .stat-card .label { color: #888; font-size: 0.8em; }
 
-        .stat-card .label {
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 10px 16px;
+            background: #0d0d0d;
+            border: 1px solid #2a2a2a;
+            border-radius: 25px;
+            color: #e0e0e0;
+            font-size: 0.95em;
+            min-width: 180px;
+        }
+        .search-bar input:focus { outline: none; border-color: #ffd700; }
+
+        .category-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .category-tab {
+            padding: 6px 14px;
+            border-radius: 18px;
+            border: none;
+            background: #252525;
             color: #888;
-            font-size: 0.85em;
-            margin-top: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            font-size: 0.8em;
         }
+        .category-tab:hover { background: #333; color: #fff; }
+        .category-tab.active { background: #ffd700; color: #1a1a1a; }
+        .category-tab .count {
+            background: #1a1a1a;
+            padding: 0 5px;
+            border-radius: 10px;
+            font-size: 0.65em;
+            margin-left: 3px;
+        }
+        .category-tab.active .count { background: #1a1a1a; }
 
-        /* ===== КАРТОЧКИ ПРИЛОЖЕНИЙ ===== */
-        .apps-grid {
+        .app-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
         }
-
         .app-card {
             background: #1e1e1e;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
             border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            padding: 20px;
             transition: 0.3s;
             position: relative;
         }
-
         .app-card:hover {
             border-color: #ffd700;
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.05);
+            box-shadow: 0 6px 25px rgba(255,215,0,0.05);
         }
-
-        .app-card .icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            display: block;
+        .app-card .app-icon { font-size: 2.5em; display: block; margin-bottom: 6px; }
+        .app-card .app-name { font-weight: bold; color: #fff; font-size: 0.95em; }
+        .app-card .app-category { font-size: 0.65em; color: #666; }
+        .app-card .app-desc {
+            font-size: 0.7em;
+            color: #777;
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-
-        .app-card .name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 5px;
+        .app-card .app-version {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            font-size: 0.55em;
+            color: #555;
+            background: #0d0d0d;
+            padding: 1px 6px;
+            border-radius: 8px;
         }
-
-        .app-card .desc {
-            color: #888;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            min-height: 40px;
+        .app-card .app-deps {
+            font-size: 0.55em;
+            color: #555;
+            margin-top: 4px;
         }
-
-        .app-card .meta {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            font-size: 0.8em;
-            color: #666;
-            margin-bottom: 12px;
-        }
-
-        .app-card .meta .category {
-            background: #2a2a2a;
-            padding: 2px 10px;
-            border-radius: 12px;
-            color: #aaa;
-        }
-
-        .app-card .btn {
-            padding: 8px 20px;
+        .app-card .btn-download {
+            margin-top: 10px;
+            padding: 6px 16px;
             border: none;
             border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .app-card .btn-primary {
             background: #ffd700;
             color: #1a1a1a;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.8em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .app-card .btn-download:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,215,0,0.15);
+        }
+        .app-card .btn-download:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .app-card .btn-primary:hover {
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
-            transform: scale(1.02);
-        }
-
-        .app-card .btn-secondary {
-            background: #2a2a2a;
-            color: #ccc;
-        }
-
-        .app-card .btn-secondary:hover {
-            background: #3a3a3a;
-        }
-
-        .app-card .btn-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .app-card .version {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #2a2a2a;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 0.7em;
+        .empty-state {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 30px;
             color: #666;
         }
+        .empty-state i { font-size: 2.5em; color: #ffd700; display: block; margin-bottom: 10px; }
 
-        .app-card .installed {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #2e7d32;
-            color: #fff;
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 0.7em;
-            font-weight: bold;
-        }
-
-        /* ===== ПОДВАЛ ===== */
-        .footer {
-            margin-top: 30px;
-            padding: 20px;
+        footer {
+            background: #0d0d0d;
+            padding: 15px;
             text-align: center;
-            color: #555;
-            font-size: 0.85em;
-            border-top: 1px solid #2a2a2a;
+            border-top: 2px solid #ffd70033;
+            margin-top: 25px;
         }
+        .footer-container p { color: #666; font-size: 0.8em; }
+        .footer-container .footer-gold { color: #ffd700; }
+        .footer-container .version { color: #444; font-size: 0.7em; }
 
-        /* ===== АДАПТИВНОСТЬ ===== */
         @media screen and (max-width: 768px) {
-            .header h1 {
-                font-size: 1.4em;
-            }
-
-            .apps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .app-card .btn-group {
-                flex-direction: column;
-            }
-
-            .app-card .btn {
-                text-align: center;
-            }
+            .header-container { flex-direction: column; align-items: flex-start; }
+            .logo h1 { font-size: 1.2em; }
+            .app-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .category-tab { font-size: 0.7em; padding: 5px 10px; }
+            .stats { grid-template-columns: repeat(3, 1fr); }
+            .stat-card .number { font-size: 1.3em; }
         }
-
         @media screen and (max-width: 480px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== СКРЫТОЕ ===== */
-        .hidden {
-            display: none !important;
-        }
-
-        /* ===== АНИМАЦИЯ ===== */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .app-card {
-            animation: fadeIn 0.3s ease-out;
+            .app-grid { grid-template-columns: 1fr 1fr; }
+            .hero h2 { font-size: 1.3em; }
+            .stats { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
 
-        <!-- ===== HEADER ===== -->
-        <div class="header">
-            <h1>📦 Гусиный <span>Магазин</span></h1>
-            <div>
-                <span class="badge" id="status-badge">🟢 Онлайн</span>
-                <a href="https://github.com/your-username/goose-apps-repo" target="_blank" class="repo-link">🌐 GitHub</a>
-            </div>
+    <header>
+        <div class="header-container">
+            <div class="logo"><h1>📦 Гусиный <span>Магазин</span></h1></div>
+            <nav>
+                <ul style="display:flex;list-style:none;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <li><span class="badge-citizen">🪪 Гражданин</span></li>
+                    <li><a href="https://github.com/neveroatnuynekit/goose_apps" target="_blank" class="repo-link"><i class="fab fa-github"></i> GitHub</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h2><i class="fas fa-store"></i> Магазин приложений</h2>
+            <p>Скачивай и устанавливай приложения для Гусиной Империи</p>
         </div>
 
-        <!-- ===== СТАТИСТИКА ===== -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="number" id="total-apps">0</div>
-                <div class="label">Приложений</div>
-            </div>
-            <div class="stat-card">
-                <div class="number" id="total-categories">0</div>
-                <div class="label">Категорий</div>
-            </div>
-            <div class="stat-card">
-                <div class="number" id="total-authors">0</div>
-                <div class="label">Авторов</div>
-            </div>
+        <div class="stats" id="stats">
+            <div class="stat-card"><div class="number" id="total-apps">0</div><div class="label">Приложений</div></div>
+            <div class="stat-card"><div class="number" id="total-categories">0</div><div class="label">Категорий</div></div>
+            <div class="stat-card"><div class="number" id="total-authors">0</div><div class="label">Авторов</div></div>
         </div>
 
-        <!-- ===== МАГАЗИН ===== -->
-        <div class="apps-grid" id="apps-container">
-            <div style="grid-column:1/-1;text-align:center;padding:40px;color:#666;">
-                <i class="fas fa-spinner fa-spin fa-2x" style="color:#ffd700;"></i>
-                <p>Загрузка приложений...</p>
-            </div>
+        <div class="search-bar">
+            <input id="search-input" placeholder="🔍 Поиск приложений..." oninput="filterApps()">
         </div>
 
-        <!-- ===== ПОДВАЛ ===== -->
-        <div class="footer">
-            <p>🐣 Гусиная Империя — Магазин приложений</p>
-            <p style="font-size:0.8em;color:#444;">Для установки приложения перетащите ZIP-файл в Гусиное Ядро</p>
+        <div class="category-tabs" id="category-tabs">
+            <button class="category-tab active" data-category="all">Все <span class="count" id="count-all">0</span></button>
+            <button class="category-tab" data-category="Финансы">💰 Финансы <span class="count" id="count-Финансы">0</span></button>
+            <button class="category-tab" data-category="Профиль">👤 Профиль <span class="count" id="count-Профиль">0</span></button>
+            <button class="category-tab" data-category="Безопасность">🔐 Безопасность <span class="count" id="count-Безопасность">0</span></button>
+            <button class="category-tab" data-category="Инструменты">🛠️ Инструменты <span class="count" id="count-Инструменты">0</span></button>
+            <button class="category-tab" data-category="Библиотеки">📚 Библиотеки <span class="count" id="count-Библиотеки">0</span></button>
+            <button class="category-tab" data-category="Демо">🧪 Демо <span class="count" id="count-Демо">0</span></button>
+            <button class="category-tab" data-category="Прочее">📦 Прочее <span class="count" id="count-Прочее">0</span></button>
         </div>
 
-    </div>
+        <div id="app-grid" class="app-grid">
+            <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Загрузка приложений...</p></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>© 2026 <span class="footer-gold">Гусиная Империя</span></p>
+            <p class="version">Г. У. С. Я. v0.2.0 — магазин приложений</p>
+        </div>
+    </footer>
 
     <script>
         // ===== КОНФИГУРАЦИЯ =====
-        // Замени URL на свой GitHub Pages
         const REPO_URL = 'https://neveroatnuynekit.github.io/goose_apps';
-        const INFO_URL = `${REPO_URL}/info.json`;
-        const APPS_URL = `${REPO_URL}/apps/`;
+        const APPS_URL = REPO_URL + '/apps/';
+        const INFO_URL = REPO_URL + '/info.json';
 
-        let appData = {};
+        let allApps = [];
+        let currentCategory = 'all';
+        let searchQuery = '';
 
-        // ===== ЗАГРУЗКА СПИСКА ПРИЛОЖЕНИЙ =====
+        // ===== ЗАГРУЗКА ДАННЫХ =====
         async function loadApps() {
-            const container = document.getElementById('apps-container');
+            const container = document.getElementById('app-grid');
 
             try {
                 const res = await fetch(INFO_URL);
                 if (!res.ok) throw new Error('Не удалось загрузить info.json');
-                appData = await res.json();
 
-                const appNames = Object.keys(appData);
-                const categories = new Set();
-                const authors = new Set();
+                const data = await res.json();
 
-                // Подсчёт статистики
-                appNames.forEach(name => {
-                    const app = appData[name];
-                    if (app.category) categories.add(app.category);
-                    if (app.author) authors.add(app.author);
+                // Поддерживаем новую структуру с вложенными apps
+                const appsData = data.apps || data;
+
+                allApps = Object.keys(appsData).map(key => {
+                    const app = appsData[key];
+                    return {
+                        id: key,
+                        name: app.name || key,
+                        icon: app.icon || '🦆',
+                        category: app.category || 'Прочее',
+                        description: app.description || '',
+                        version: app.version || '1.0.0',
+                        author: app.author || 'Неизвестен',
+                        dependencies: app.dependencies || [],
+                        tags: app.tags || [],
+                        file: app.file || `${key}.zip`
+                    };
                 });
 
-                document.getElementById('total-apps').textContent = appNames.length;
-                document.getElementById('total-categories').textContent = categories.size;
-                document.getElementById('total-authors').textContent = authors.size;
-
-                if (appNames.length === 0) {
-                    container.innerHTML = `
-                        <div style="grid-column:1/-1;text-align:center;padding:40px;color:#666;">
-                            <i class="fas fa-box-open fa-3x" style="color:#ffd700;display:block;margin-bottom:15px;"></i>
-                            <p>Приложений пока нет</p>
-                            <p style="font-size:0.9em;">Добавьте первое приложение в репозиторий</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = appNames.map(name => {
-                    const app = appData[name];
-                    const zipUrl = `${APPS_URL}${name}.zip`;
-
-                    return `
-                        <div class="app-card">
-                            <span class="version">v${app.version || '1.0'}</span>
-                            <span class="icon">${app.icon || '📦'}</span>
-                            <div class="name">${app.name || name}</div>
-                            <div class="desc">${app.desc || 'Описание отсутствует'}</div>
-                            <div class="meta">
-                                <span class="category">${app.category || 'Разное'}</span>
-                                <span>👤 ${app.author || 'Неизвестен'}</span>
-                                <span>📅 ${app.updated || '—'}</span>
-                                <span>📦 ${app.size || '—'}</span>
-                            </div>
-                            <div class="btn-group">
-                                <a href="${zipUrl}" class="btn btn-primary" download>
-                                    📥 Скачать ZIP
-                                </a>
-                                <button class="btn btn-secondary" onclick="copyAppLink('${name}')">
-                                    🔗 Ссылка
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                document.getElementById('status-badge').textContent = '🟢 Загружено ' + appNames.length + ' приложений';
-
+                updateStats();
+                renderCategories();
+                filterApps();
             } catch (e) {
                 container.innerHTML = `
-                    <div style="grid-column:1/-1;text-align:center;padding:40px;color:#f44336;">
-                        <i class="fas fa-exclamation-triangle fa-3x" style="display:block;margin-bottom:15px;"></i>
-                        <p>Ошибка загрузки репозитория</p>
-                        <p style="font-size:0.9em;color:#888;">${e.message}</p>
-                        <button class="btn" style="margin-top:15px;background:#ffd700;color:#1a1a1a;border:none;padding:10px 25px;border-radius:20px;cursor:pointer;" onclick="loadApps()">
+                    <div class="empty-state" style="color:#f44336;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Ошибка загрузки: ${e.message}</p>
+                        <p style="font-size:0.8em;color:#888;margin-top:8px;">
+                            Проверьте <code style="background:#0d0d0d;padding:2px 8px;border-radius:4px;">info.json</code> в репозитории
+                        </p>
+                        <button onclick="loadApps()" style="margin-top:12px;padding:8px 20px;background:#ffd700;color:#1a1a1a;border:none;border-radius:20px;font-weight:bold;cursor:pointer;">
                             🔄 Повторить
                         </button>
                     </div>
                 `;
-                document.getElementById('status-badge').textContent = '🔴 Ошибка загрузки';
-                console.error('Ошибка загрузки приложений:', e);
+                console.error('Ошибка загрузки:', e);
             }
         }
 
-        // ===== КОПИРОВАНИЕ ССЫЛКИ =====
-        function copyAppLink(appName) {
-            const url = `${APPS_URL}${appName}.zip`;
-            navigator.clipboard.writeText(url).then(() => {
-                showToast('✅ Ссылка скопирована: ' + url);
-            }).catch(() => {
-                // Fallback
-                const input = document.createElement('input');
-                input.value = url;
-                document.body.appendChild(input);
-                input.select();
-                document.execCommand('copy');
-                document.body.removeChild(input);
-                showToast('✅ Ссылка скопирована');
+        // ===== СТАТИСТИКА =====
+        function updateStats() {
+            const categories = new Set();
+            const authors = new Set();
+
+            allApps.forEach(app => {
+                if (app.category) categories.add(app.category);
+                if (app.author) authors.add(app.author);
+            });
+
+            document.getElementById('total-apps').textContent = allApps.length;
+            document.getElementById('total-categories').textContent = categories.size;
+            document.getElementById('total-authors').textContent = authors.size;
+
+            // Обновляем счётчики категорий
+            const counts = {};
+            allApps.forEach(app => {
+                const cat = app.category || 'Прочее';
+                counts[cat] = (counts[cat] || 0) + 1;
+            });
+            counts['all'] = allApps.length;
+
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                const cat = tab.dataset.category;
+                const span = tab.querySelector('.count');
+                if (span) span.textContent = counts[cat] || 0;
             });
         }
 
-        // ===== TOAST-СООБЩЕНИЯ =====
-        function showToast(msg) {
-            const old = document.querySelector('.toast-message');
-            if (old) old.remove();
-
-            const div = document.createElement('div');
-            div.className = 'toast-message';
-            div.textContent = msg;
-            Object.assign(div.style, {
-                position: 'fixed',
-                bottom: '20px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: '#0d0d0d',
-                color: '#ffd700',
-                padding: '12px 24px',
-                borderRadius: '30px',
-                border: '1px solid #ffd700',
-                fontWeight: 'bold',
-                zIndex: '9999',
-                boxShadow: '0 4px 30px rgba(0,0,0,0.8)',
-                animation: 'fadeIn 0.3s ease-out',
-                maxWidth: '90%',
-                textAlign: 'center'
+        // ===== КАТЕГОРИИ =====
+        function renderCategories() {
+            const categories = new Set();
+            allApps.forEach(app => {
+                if (app.category) categories.add(app.category);
             });
-            document.body.appendChild(div);
 
-            setTimeout(() => {
-                div.style.opacity = '0';
-                div.style.transition = 'opacity 0.3s';
-                setTimeout(() => div.remove(), 300);
-            }, 3000);
+            // Обновляем существующие вкладки, добавляем новые
+            const container = document.getElementById('category-tabs');
+            const existing = container.querySelectorAll('.category-tab');
+            const existingCats = Array.from(existing).map(t => t.dataset.category);
+
+            // Добавляем недостающие категории
+            categories.forEach(cat => {
+                if (!existingCats.includes(cat)) {
+                    const tab = document.createElement('button');
+                    tab.className = 'category-tab';
+                    tab.dataset.category = cat;
+                    tab.innerHTML = `${getCategoryIcon(cat)} ${cat} <span class="count" id="count-${cat}">0</span>`;
+                    tab.addEventListener('click', function() {
+                        setCategory(this.dataset.category);
+                    });
+                    // Вставляем перед "Прочее"
+                    const otherTab = container.querySelector('[data-category="Прочее"]');
+                    if (otherTab) container.insertBefore(tab, otherTab);
+                    else container.appendChild(tab);
+                }
+            });
         }
 
-        // ===== ЗАГРУЗКА ПРИ СТАРТЕ =====
+        function getCategoryIcon(category) {
+            const icons = {
+                'Финансы': '💰',
+                'Профиль': '👤',
+                'Безопасность': '🔐',
+                'Инструменты': '🛠️',
+                'Библиотеки': '📚',
+                'Демо': '🧪'
+            };
+            return icons[category] || '📦';
+        }
+
+        // ===== ФИЛЬТРАЦИЯ =====
+        function setCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.category === category);
+            });
+            filterApps();
+        }
+
+        function filterApps() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            searchQuery = query;
+
+            let filtered = [...allApps];
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(a => (a.category || 'Прочее') === currentCategory);
+            }
+
+            if (query) {
+                filtered = filtered.filter(a =>
+                    a.name.toLowerCase().includes(query) ||
+                    a.description.toLowerCase().includes(query) ||
+                    (a.tags && a.tags.some(t => t.toLowerCase().includes(query)))
+                );
+            }
+
+            renderApps(filtered);
+        }
+        window.filterApps = filterApps;
+
+        // ===== ОТОБРАЖЕНИЕ =====
+        function renderApps(apps) {
+            const container = document.getElementById('app-grid');
+
+            if (!apps || apps.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>Приложений не найдено</p>
+                        <p style="font-size:0.85em;color:#555;">Попробуйте другие фильтры</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = apps.map(app => `
+                <div class="app-card">
+                    <span class="app-version">v${app.version}</span>
+                    <span class="app-icon">${app.icon || '🦆'}</span>
+                    <div class="app-name">${app.name}</div>
+                    <div class="app-category">${app.category || 'Прочее'}</div>
+                    <div class="app-desc">${app.description || ''}</div>
+                    ${app.dependencies && app.dependencies.length > 0
+                        ? `<div class="app-deps">📦 зависит: ${app.dependencies.join(', ')}</div>`
+                        : ''}
+                    <div style="font-size:0.6em;color:#444;margin-top:4px;">${app.author || ''}</div>
+                    <a href="${APPS_URL}${app.file}" download class="btn-download">
+                        <i class="fas fa-download"></i> Скачать
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
         window.onload = function() {
             loadApps();
-            console.log('🦆 Гусиный Магазин загружен');
-            console.log('📦 Репозиторий:', REPO_URL);
+            console.log('📦 Гусиный Магазин v0.2.0 загружен');
+            console.log('🦆 Репозиторий:', REPO_URL);
         };
     </script>
+
 </body>
 </html>
