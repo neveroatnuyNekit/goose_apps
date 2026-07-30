@@ -64,9 +64,7 @@
       "author": "Император",
       "tags": ["демо", "тест", "пример"],
       "file": "test-app.zip"
-    }
-  },
-  "libs": {
+    },
     "app": {
       "name": "App Library",
       "icon": "📚",
